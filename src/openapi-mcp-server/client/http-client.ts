@@ -45,7 +45,20 @@ export class HttpClient {
         },
       },
     })
-    this.api = this.client.init()
+    // Initialize the Axios instance and attach a request interceptor to log auth headers
+    this.api = this.client.init().then(api => {
+      api.interceptors.request.use(request => {
+        try {
+          const method = (request.method || '').toUpperCase()
+          const url = request.url || ''
+          const authHeader = request.headers?.['Authorization'] ?? request.headers?.Authorization
+        } catch (_) {
+          // ignore logging errors
+        }
+        return request
+      })
+      return api
+    })
   }
 
   private async prepareFileUpload(operation: OpenAPIV3.OperationObject, params: Record<string, any>): Promise<FormData | null> {

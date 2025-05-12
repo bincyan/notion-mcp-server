@@ -123,23 +123,38 @@ export class MCPProxy {
     return this.openApiLookup[operationId] ?? null
   }
 
+  /**
+   * Build HTTP headers for the OpenAPI client.
+   * Priority:
+   * 1. OPENAPI_MCP_HEADERS as JSON object
+   * 2. NOTION_API_KEY (or NOTION_TOKEN) and NOTION_VERSION env vars
+   */
   private parseHeadersFromEnv(): Record<string, string> {
+    // 1) Read and parse explicit JSON headers, if provided
     const headersJson = process.env.OPENAPI_MCP_HEADERS
-    if (!headersJson) {
-      return {}
-    }
-
-    try {
-      const headers = JSON.parse(headersJson)
-      if (typeof headers !== 'object' || headers === null) {
-        console.warn('OPENAPI_MCP_HEADERS environment variable must be a JSON object, got:', typeof headers)
-        return {}
+    if (headersJson) {
+      try {
+        const parsed = JSON.parse(headersJson)
+        if (typeof parsed === 'object' && parsed !== null) {
+          if (Object.keys(parsed).length > 0) {
+            return parsed as Record<string, string>
+          }
+        }
+      } catch (error) {
+        console.warn('Failed to parse OPENAPI_MCP_HEADERS environment variable:', error)
       }
-      return headers
-    } catch (error) {
-      console.warn('Failed to parse OPENAPI_MCP_HEADERS environment variable:', error)
-      return {}
     }
+    // 2) Fallback to individual Notion env vars
+    const headers: Record<string, string> = {}
+    const token = process.env.NOTION_API_KEY ?? process.env.NOTION_TOKEN
+    if (token) {
+      headers.Authorization = `Bearer ${token}`
+    }
+    const version = process.env.NOTION_VERSION
+    if (version) {
+      headers['Notion-Version'] = version
+    }
+    return headers
   }
 
   private getContentType(headers: Headers): 'text' | 'image' | 'binary' {

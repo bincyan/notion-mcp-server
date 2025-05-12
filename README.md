@@ -38,7 +38,8 @@ Add the following to your `.cursor/mcp.json` or `claude_desktop_config.json` (Ma
       "command": "npx",
       "args": ["-y", "@notionhq/notion-mcp-server"],
       "env": {
-        "OPENAPI_MCP_HEADERS": "{\"Authorization\": \"Bearer ntn_****\", \"Notion-Version\": \"2022-06-28\" }"
+        "NOTION_API_KEY": "ntn_****",
+        "NOTION_VERSION": "2022-06-28"
       }
     }
   }
@@ -62,11 +63,13 @@ Add the following to your `.cursor/mcp.json` or `claude_desktop_config.json`:
         "run",
         "--rm",
         "-i",
-        "-e", "OPENAPI_MCP_HEADERS",
+        "-e", "NOTION_API_KEY",
+        "-e", "NOTION_VERSION",
         "mcp/notion"
       ],
       "env": {
-        "OPENAPI_MCP_HEADERS": "{\"Authorization\":\"Bearer ntn_****\",\"Notion-Version\":\"2022-06-28\"}"
+        "NOTION_API_KEY": "ntn_****",
+        "NOTION_VERSION": "2022-06-28"
       }
     }
   }
@@ -97,8 +100,8 @@ Then, add the following to your `.cursor/mcp.json` or `claude_desktop_config.jso
         "run",
         "--rm",
         "-i",
-        "-e",
-        "OPENAPI_MCP_HEADERS={\"Authorization\": \"Bearer ntn_****\", \"Notion-Version\": \"2022-06-28\"}",
+        "-e", "NOTION_API_KEY=ntn_****",
+        "-e", "NOTION_VERSION=2022-06-28",
         "notion-mcp-server"
       ]
     }

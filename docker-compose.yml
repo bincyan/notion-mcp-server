@@ -1,6 +1,17 @@
+version: '3.8'
 services:
   notion-mcp-server:
     build: .
+    env_file:
+      - .env
     stdin_open: true
     tty: true
     restart: unless-stopped
+    environment:
+      ENABLE_SSE: ${ENABLE_SSE:-true}
+      PORT: ${PORT:-3000}
+      NOTION_API_KEY: ${NOTION_API_KEY}
+      NOTION_VERSION: ${NOTION_VERSION:-2022-06-28}
+    ports:
+      - "${PORT:-3000}:3000"
+    command: ["--sse", "--port", "3000"]
