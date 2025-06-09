@@ -22,7 +22,12 @@ For example, you can create a read-only integration token by giving only "Read c
 #### 2. Connecting content to integration:
 Ensure relevant pages and databases are connected to your integration.
 
-To do this, you'll need to visit that page, and click on the 3 dots, and select "Connect to integration". 
+To do this, visit the **Access** tab in your internal integration settings. Edit access and select the pages you'd like to use.
+![Integration Access tab](docs/images/integration-access.png)
+
+![Edit integration access](docs/images/page-access-edit.png)
+
+Alternatively, you can grant page access individually. You'll need to visit the target page, and click on the 3 dots, and select "Connect to integration". 
 
 ![Adding Integration Token to Notion Connections](docs/images/connections.png)
 
@@ -112,6 +117,17 @@ Then, add the following to your `.cursor/mcp.json` or `claude_desktop_config.jso
 Don't forget to replace `ntn_****` with your integration secret. Find it from your integration configuration tab:
 
 ![Copying your Integration token from the Configuration tab in the developer portal](https://github.com/user-attachments/assets/67b44536-5333-49fa-809c-59581bf5370a)
+
+
+#### Installing via Smithery
+
+[![smithery badge](https://smithery.ai/badge/@makernotion/notion-mcp-server)](https://smithery.ai/server/@makernotion/notion-mcp-server)
+
+To install Notion API Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@makernotion/notion-mcp-server):
+
+```bash
+npx -y @smithery/cli install @makenotion/notion-mcp-server --client claude
+```
 
 ### Examples
 
